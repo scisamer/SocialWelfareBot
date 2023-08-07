@@ -87,7 +87,7 @@ async function base(ctx, next) {
 			const mdb = client.db('allMeals');
 			const users = mdb.collection('users');
 
-			const findResult = await users
+			var findResult = await users
 			.find({ A: { $regex: text, $options: 'i' } })
 			.toArray();
 			await client.close();
