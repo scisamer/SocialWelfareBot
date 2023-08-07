@@ -93,6 +93,7 @@ async function base(ctx, next) {
 			await client.close();
 			ctx.telegram.editMessageText(ctx.chat.id,editMessage.message_id,0,`اكتملت عملية البحث`);
 			if (findResult.length > 0) {
+				findResult = findResult.slice(0,10);
 				var message = `تم العثور على النتيجة:
 				`;
 				for (var user of findResult) {
