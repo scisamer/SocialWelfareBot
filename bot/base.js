@@ -95,16 +95,15 @@ async function base(ctx, next) {
 			ctx.telegram.editMessageText(ctx.chat.id, editMessage.message_id, 0, `اكتملت عملية البحث`);
 			if (findResult.length > 0) {
 				var parts = lodash.chunk(findResult, 15);
-				parts.forEach(findResults => {
-					// console.log(findResults);
-					ctx.reply(JSON.stringify(findResults, null, 4));
-					for (var user of findResults) {
-						var message = "";
+				for (let j = 0; j < parts.length; j++) {
+					var part = parts[j];
+					var message = "";
+					for (var user of part) {
 						var txt = `الاسم: ${user.A}\nاسم الام: ${user.B}\nتاريخ المراجعة: ${user.C}\nالقسم: ${user.D}`;
 						message += txt;
 					}
-					// ctx.reply(message);
-				})
+					await ctx.reply(message);
+				}
 
 			} else {
 				ctx.reply("لا يوجد نتائج، يرجى انتظار نشر وجبات جديدة");
