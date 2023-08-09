@@ -97,7 +97,7 @@ async function base(ctx, next) {
 				var parts = lodash.chunk(findResult, 15);
 				for (let j = 0; j < parts.length; j++) {
 					var part = parts[j];
-					var message = "";
+					var message = "\n";
 					for (var user of part) {
 						var txt = `الاسم: ${user.A}\nاسم الام: ${user.B}\nتاريخ المراجعة: ${user.C}\nالقسم: ${user.D}`;
 						message += txt;
