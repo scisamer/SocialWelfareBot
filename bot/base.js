@@ -1,6 +1,7 @@
 const fs = require("fs");
 const db = require('../database/db');
 const { getRun } = require("./startStop");
+var lodash = require("lodash");
 
 const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://samerjk23:49onPF2LOz6TI2RY@cluster0.amvgk1y.mongodb.net/?retryWrites=true&w=majority";
@@ -93,14 +94,8 @@ async function base(ctx, next) {
 			await client.close();
 			ctx.telegram.editMessageText(ctx.chat.id, editMessage.message_id, 0, `اكتملت عملية البحث`);
 			if (findResult.length > 0) {
-				const subArrays = [];
-				// تقسيم المصفوفة الأساسية إلى مصفوفات فرعية
-				for (let i = 0; i < findResult.length; i += 15) {
-					const subArray = findResult.slice(i, i + 15);
-					subArrays.push(subArray);
-				}
-
-				subArrays.forEach(findResults => {
+				var parts = lodash.chunk(findResult, 15);
+				parts.forEach(findResults => {
 					for (var user of findResults) {
 						var message = "";
 						var txt = `الاسم: ${user.A}\nاسم الام: ${user.B}\nتاريخ المراجعة: ${user.C}\nالقسم: ${user.D}`;
