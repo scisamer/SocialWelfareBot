@@ -96,6 +96,7 @@ async function base(ctx, next) {
 			if (findResult.length > 0) {
 				var parts = lodash.chunk(findResult, 15);
 				parts.forEach(findResults => {
+					console.log(findResults);
 					for (var user of findResults) {
 						var message = "";
 						var txt = `الاسم: ${user.A}\nاسم الام: ${user.B}\nتاريخ المراجعة: ${user.C}\nالقسم: ${user.D}`;
