@@ -28,7 +28,7 @@ bot.use(session());
 bot.use( security );
 bot.use( require("./bot/anlysis") );
 //ملفات الاضافات
-bot.use( require("./bot/channel") );
+// bot.use( require("./bot/channel") );
 bot.use( admin );
 bot.use( require("./bot/command") );
 onAction(bot);

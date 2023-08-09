@@ -6,7 +6,7 @@ const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://samerjk23:49onPF2LOz6TI2RY@cluster0.amvgk1y.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, {
 	useNewUrlParser: true,
-	 useUnifiedTopology: true,
+	useUnifiedTopology: true,
 	retryWrites: false,
 	connectTimeoutMS: 5000,
 });
@@ -77,9 +77,9 @@ async function base(ctx, next) {
 	else {
 		if (!text) return ctx.reply("يرجى ارسال اسم وليس صورة او ملف");
 		text = text.replace(/(\s+)/g, " ")
-		.replace(/^أ/gm, 'ا')
-		.replace(/ة(?=\s|$)/g, 'ه')
-		.trim();
+			.replace(/^أ/gm, 'ا')
+			.replace(/ة(?=\s|$)/g, 'ه')
+			.trim();
 		if (/^(?:[\u0600-\u06FF]+\s){2,}[\u0600-\u06FF]+$/.test(text)) {
 			let editMessage = await ctx.replyWithMarkdown(`جاري البحث عن {*${text}*}`);
 			await client.connect();
@@ -88,24 +88,27 @@ async function base(ctx, next) {
 			const users = mdb.collection('users');
 
 			var findResult = await users
-			.find({ A: { $regex: text, $options: 'i' } })
-			.toArray();
+				.find({ A: { $regex: text, $options: 'i' } })
+				.toArray();
 			await client.close();
-			ctx.telegram.editMessageText(ctx.chat.id,editMessage.message_id,0,`اكتملت عملية البحث`);
+			ctx.telegram.editMessageText(ctx.chat.id, editMessage.message_id, 0, `اكتملت عملية البحث`);
 			if (findResult.length > 0) {
-				findResult = findResult.slice(0,10);
-				var message = `تم العثور على النتيجة:
-				`;
-				for (var user of findResult) {
-					var txt = `
-الاسم: ${user.A}
-اسم الام: ${user.B},
-تاريخ المراجعة: ${user.C}
-القسم: ${user.D}
+				const subArrays = [];
+				// تقسيم المصفوفة الأساسية إلى مصفوفات فرعية
+				for (let i = 0; i < findResult.length; i += 15) {
+					const subArray = findResult.slice(i, i + 15);
+					subArrays.push(subArray);
+				}
 
-				`;
-					message += txt;
-				} ctx.reply(message);
+				subArrays.forEach(findResults => {
+					for (var user of findResults) {
+						var message = "";
+						var txt = `الاسم: ${user.A}\nاسم الام: ${user.B}\nتاريخ المراجعة: ${user.C}\nالقسم: ${user.D}`;
+						message += txt;
+					}
+					ctx.reply(message);
+				})
+
 			} else {
 				ctx.reply("لا يوجد نتائج، يرجى انتظار نشر وجبات جديدة");
 			}
