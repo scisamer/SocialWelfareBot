@@ -99,8 +99,7 @@ async function base(ctx, next) {
 					var part = parts[j];
 					var message = "";
 					for (var user of part) {
-						message += "\n";
-						var txt = `الاسم: ${user.A}\nاسم الام: ${user.B}\nتاريخ المراجعة: ${user.C}\nالقسم: ${user.D}`;
+						var txt = `الاسم: ${user.A}\nاسم الام: ${user.B}\nتاريخ المراجعة: ${user.C}\nالقسم: ${user.D}\n\n`;
 						message += txt;
 					}
 					await ctx.reply(message);
