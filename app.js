@@ -15,7 +15,7 @@ process.on('uncaughtException', function (err) {
 });
 
 // const bot = new Telegraf(process.env.BOT_TOKEN);
-const bot = new Telegraf('6236812837:AAFruHisHmfVvgGHIZEJJiQ6iLc5UYMmUQE');
+const bot = new Telegraf('6604605064:AAH-rXmwONqi8kqXbGsNYE7zS2_l1oFgVJE');
 
 
 bot.use(session());
